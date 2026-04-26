@@ -1,0 +1,230 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-headline: 'Manrope', 'Space Grotesk', sans-serif;
+	--font-display: 'Manrope', sans-serif;
+	--font-body: 'Inter', 'Manrope', sans-serif;
+	--font-label: 'Inter', 'Manrope', sans-serif;
+	--font-mono: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
+
+	--color-background: #0e0b18;
+	--color-surface: #15111f;
+	--color-surface-dim: #15111f;
+	--color-surface-bright: #3b3746;
+	--color-surface-container-lowest: #0f0c19;
+	--color-surface-container-low: #1d1a27;
+	--color-surface-container: #211e2b;
+	--color-surface-container-high: #2b2836;
+	--color-surface-container-highest: #363341;
+	--color-surface-variant: #363341;
+
+	--color-primary: #cdbefc;
+	--color-primary-container: #685b92;
+	--color-primary-fixed: #e8ddff;
+	--color-primary-fixed-dim: #cdbefc;
+	--color-on-primary: #34285b;
+	--color-on-primary-container: #e6dbff;
+	--color-on-primary-fixed: #1f1145;
+	--color-on-primary-fixed-variant: #4b3e73;
+
+	--color-secondary: #cdbdff;
+	--color-secondary-container: #4e3b8c;
+	--color-secondary-fixed: #e8deff;
+	--color-secondary-fixed-dim: #cdbdff;
+	--color-on-secondary: #352072;
+	--color-on-secondary-container: #c0acff;
+	--color-on-secondary-fixed: #20025d;
+	--color-on-secondary-fixed-variant: #4c398a;
+
+	--color-tertiary: #cdbdff;
+	--color-tertiary-container: #6b4cc8;
+	--color-tertiary-fixed: #e8deff;
+	--color-tertiary-fixed-dim: #cdbdff;
+	--color-on-tertiary: #370393;
+	--color-on-tertiary-container: #e5dbff;
+	--color-on-tertiary-fixed: #20005f;
+	--color-on-tertiary-fixed-variant: #4e2baa;
+
+	--color-accent: #6b4cc8;
+
+	--color-on-background: #e7dff3;
+	--color-on-surface: #e7dff3;
+	--color-on-surface-variant: #cac4d5;
+	--color-outline: #948e9e;
+	--color-outline-variant: #494553;
+	--color-inverse-surface: #e7dff3;
+	--color-inverse-on-surface: #322e3d;
+	--color-inverse-primary: #63568d;
+
+	--color-error: #ffb4ab;
+	--color-error-container: #93000a;
+	--color-on-error: #690005;
+	--color-on-error-container: #ffdad6;
+
+	--radius-DEFAULT: 0.25rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+	--radius-2xl: 1.5rem;
+}
+
+/* Glassmorphic panel — landing page */
+@utility glass-panel {
+	background: rgba(33, 30, 43, 0.4);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(73, 69, 83, 0.2);
+}
+
+/* Heavier glass — auth monolith */
+@utility glass-morphism {
+	background: rgba(255, 255, 255, 0.03);
+	backdrop-filter: blur(40px);
+	-webkit-backdrop-filter: blur(40px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Dashboard / app surfaces */
+@utility glass-card {
+	background: rgba(33, 30, 43, 0.4);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(107, 76, 200, 0.2);
+}
+
+@utility glass-card-high {
+	background: rgba(43, 40, 54, 0.6);
+	backdrop-filter: blur(24px);
+	-webkit-backdrop-filter: blur(24px);
+	border: 1px solid rgba(107, 76, 200, 0.3);
+}
+
+@utility glow-effect {
+	box-shadow: 0 0 40px rgba(107, 76, 200, 0.15);
+}
+
+@utility bg-gradient-glass {
+	background: linear-gradient(
+		135deg,
+		rgba(205, 190, 252, 0.1),
+		rgba(107, 76, 200, 0.1)
+	);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(73, 69, 83, 0.2);
+}
+
+@utility text-glow {
+	text-shadow: 0 0 10px rgba(205, 190, 252, 0.3);
+}
+
+/* Library grid item — lifts + glows on hover */
+@utility library-card {
+	background: rgba(43, 40, 54, 0.5);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid rgba(73, 69, 83, 0.2);
+	transition: all 0.3s ease-out;
+}
+.library-card:hover {
+	transform: translateY(-4px) scale(1.02);
+	background: rgba(54, 51, 65, 0.6);
+	border-color: rgba(205, 190, 252, 0.3);
+	box-shadow: 0 12px 32px -8px rgba(75, 62, 115, 0.4);
+}
+
+@utility text-gradient {
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	background-image: linear-gradient(135deg, var(--color-primary), var(--color-tertiary-container));
+}
+
+@layer utilities {
+	.shimmer {
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgba(255, 255, 255, 0.05),
+			transparent
+		);
+		background-size: 200% 100%;
+		animation: shimmer 3s infinite;
+	}
+
+	@keyframes shimmer {
+		0% {
+			background-position: -200% 0;
+		}
+		100% {
+			background-position: 200% 0;
+		}
+	}
+
+	/* Vault door reveal animation — landing transition */
+	.vault-door {
+		transform-origin: var(--door-origin, left center);
+		transition:
+			transform 1400ms cubic-bezier(0.22, 1, 0.36, 1),
+			opacity 1400ms ease-out;
+	}
+	.vault-door.is-open-left {
+		transform: perspective(1600px) rotateY(-105deg) translateX(-10%);
+		opacity: 0;
+	}
+	.vault-door.is-open-right {
+		transform: perspective(1600px) rotateY(105deg) translateX(10%);
+		opacity: 0;
+	}
+
+	.vault-content {
+		opacity: 0;
+		transform: scale(0.94) translateY(24px);
+		filter: blur(8px);
+		transition:
+			opacity 1100ms ease-out 350ms,
+			transform 1400ms cubic-bezier(0.22, 1, 0.36, 1) 250ms,
+			filter 900ms ease-out 400ms;
+	}
+	.vault-content.is-revealed {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+		filter: blur(0);
+	}
+
+	.float-y {
+		animation: float-y 7s ease-in-out infinite;
+	}
+	.float-y-slow {
+		animation: float-y 11s ease-in-out infinite;
+	}
+	.float-y-fast {
+		animation: float-y 5s ease-in-out infinite;
+	}
+
+	@keyframes float-y {
+		0%,
+		100% {
+			transform: translateY(0) var(--float-rotate, rotate(0deg));
+		}
+		50% {
+			transform: translateY(-12px) var(--float-rotate, rotate(0deg));
+		}
+	}
+}
+
+html,
+body {
+	background-color: var(--color-background);
+	color: var(--color-on-background);
+}
+
+html {
+	color-scheme: dark;
+}
+
+::selection {
+	background: rgba(107, 76, 200, 0.3);
+	color: var(--color-primary);
+}
