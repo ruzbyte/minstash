@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import AuthShell from '$lib/components/auth/AuthShell.svelte';
-	import AuthToggle from '$lib/components/auth/AuthToggle.svelte';
-	import AuthField from '$lib/components/auth/AuthField.svelte';
-	import SocialAuth from '$lib/components/auth/SocialAuth.svelte';
+	import AuthShell from "$lib/components/auth/AuthShell.svelte";
+	import AuthToggle from "$lib/components/auth/AuthToggle.svelte";
+	import AuthField from "$lib/components/auth/AuthField.svelte";
+	import SocialAuth from "$lib/components/auth/SocialAuth.svelte";
+	import { user } from "$lib/api/auth.svelte";
 
-	let email = $state('');
-	let password = $state('');
+	let username = $state("");
+	let password = $state("");
 
 	async function handleLogin(event: SubmitEvent) {
 		event.preventDefault();
-		// TODO: call backend auth, set session, then navigate.
-		await goto('/app');
+
+		await user.login(username, password);
 	}
 </script>
 
@@ -25,12 +25,12 @@
 	<div class="p-8 pt-4 md:p-10">
 		<form class="space-y-6" onsubmit={handleLogin}>
 			<AuthField
-				id="email"
-				label="Email Address"
-				type="email"
-				placeholder="architect@vault.io"
-				autocomplete="email"
-				bind:value={email}
+				id="username"
+				label="Username"
+				type="text"
+				placeholder="Enter your username"
+				autocomplete="username"
+				bind:value={username}
 			/>
 
 			<AuthField

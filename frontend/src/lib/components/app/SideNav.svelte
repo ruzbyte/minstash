@@ -1,26 +1,46 @@
 <script lang="ts">
-	import Icon from '../Icon.svelte';
-
+	import Icon from "../Icon.svelte";
+	import { user } from "$lib/api/auth.svelte";
 	export type NavKey =
-		| 'dashboard'
-		| 'library'
-		| 'snippets'
-		| 'documents'
-		| 'media'
-		| 'archive';
+		| "dashboard"
+		| "library"
+		| "snippets"
+		| "documents"
+		| "media"
+		| "archive";
 
 	type Item = { key: NavKey; label: string; icon: string; href: string };
 
 	type Props = { active?: NavKey };
-	let { active = 'dashboard' }: Props = $props();
+	let { active = "dashboard" }: Props = $props();
 
 	const items: Item[] = [
-		{ key: 'dashboard', label: 'Dashboard', icon: 'dashboard', href: '/app' },
-		{ key: 'library', label: 'Library', icon: 'grid_view', href: '/app/library' },
-		{ key: 'snippets', label: 'Snippets', icon: 'code', href: '/app/snippets' },
-		{ key: 'documents', label: 'Documents', icon: 'description', href: '#' },
-		{ key: 'media', label: 'Media', icon: 'perm_media', href: '#' },
-		{ key: 'archive', label: 'Archive', icon: 'inventory_2', href: '#' }
+		{
+			key: "dashboard",
+			label: "Dashboard",
+			icon: "dashboard",
+			href: "/app",
+		},
+		{
+			key: "library",
+			label: "Library",
+			icon: "grid_view",
+			href: "/app/library",
+		},
+		{
+			key: "snippets",
+			label: "Snippets",
+			icon: "code",
+			href: "/app/snippets",
+		},
+		{
+			key: "documents",
+			label: "Documents",
+			icon: "description",
+			href: "#",
+		},
+		{ key: "media", label: "Media", icon: "perm_media", href: "#" },
+		{ key: "archive", label: "Archive", icon: "inventory_2", href: "#" },
 	];
 </script>
 
@@ -35,11 +55,15 @@
 			<Icon name="widgets" class="text-on-primary" filled />
 		</div>
 		<div>
-			<h1 class="text-lg font-bold tracking-tighter text-primary normal-case">
-				The Void
+			<h1
+				class="text-lg font-bold tracking-tighter text-primary normal-case"
+			>
+				{user.username || "Architect"}
 			</h1>
-			<p class="font-body text-xs font-medium text-on-surface-variant normal-case">
-				Self-hosted
+			<p
+				class="font-body text-xs font-medium text-on-surface-variant normal-case"
+			>
+				{user.id ? `ID: ${user.id}` : "Vault Access"}
 			</p>
 		</div>
 	</a>

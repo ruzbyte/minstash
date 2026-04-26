@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import TopNav from '$lib/components/TopNav.svelte';
-	import SiteFooter from '$lib/components/SiteFooter.svelte';
-	import Hero from '$lib/components/landing/Hero.svelte';
-	import VaultTransition from '$lib/components/landing/VaultTransition.svelte';
+	import { onMount } from "svelte";
+	import TopNav from "$lib/components/TopNav.svelte";
+	import SiteFooter from "$lib/components/SiteFooter.svelte";
+	import Hero from "$lib/components/landing/Hero.svelte";
+	import VaultTransition from "$lib/components/landing/VaultTransition.svelte";
 
 	let revealed = $state(false);
 

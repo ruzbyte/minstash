@@ -1,13 +1,13 @@
 <script lang="ts">
-	import AuthBackground from './AuthBackground.svelte';
+	import AuthBackground from "./AuthBackground.svelte";
 
-	type Props = { children: import('svelte').Snippet };
+	type Props = { children: import("svelte").Snippet };
 	let { children }: Props = $props();
 
 	const footerLinks = [
-		{ label: 'Privacy Protocol', href: '#' },
-		{ label: 'Governance', href: '#' },
-		{ label: 'Node Status', href: '#' }
+		{ label: "Privacy Protocol", href: "#" },
+		{ label: "Governance", href: "#" },
+		{ label: "Node Status", href: "#" },
 	];
 </script>
 
@@ -15,7 +15,10 @@
 <nav
 	class="fixed top-0 left-1/2 z-50 mx-auto mt-6 flex w-[92%] max-w-5xl -translate-x-1/2 items-center justify-between rounded-full border border-white/10 bg-surface/60 px-8 py-3 shadow-[0_8px_32px_rgba(75,62,115,0.2)] backdrop-blur-xl"
 >
-	<a href="/" class="font-headline text-2xl font-black tracking-tighter text-primary">
+	<a
+		href="/"
+		class="font-headline text-2xl font-black tracking-tighter text-primary"
+	>
 		Minstash
 	</a>
 	<div class="hidden items-center gap-8 md:flex">
@@ -61,10 +64,14 @@
 
 	<!-- Brand anchor -->
 	<div class="relative z-10 mb-10 text-center">
-		<h1 class="font-headline text-5xl font-extrabold tracking-tighter text-white">
+		<h1
+			class="font-headline text-5xl font-extrabold tracking-tighter text-white"
+		>
 			minstash
 		</h1>
-		<p class="font-label mt-3 text-[10px] tracking-[0.3em] uppercase text-primary/60">
+		<p
+			class="font-label mt-3 text-[10px] tracking-[0.3em] uppercase text-primary/60"
+		>
 			Architectural Code Vault
 		</p>
 	</div>
@@ -73,7 +80,9 @@
 	<main
 		class="glass-morphism relative z-10 w-full max-w-md overflow-hidden rounded-2xl"
 	>
-		<div class="shimmer pointer-events-none absolute inset-0 opacity-30"></div>
+		<div
+			class="shimmer pointer-events-none absolute inset-0 opacity-30"
+		></div>
 		{@render children()}
 		<!-- Bottom accent -->
 		<div

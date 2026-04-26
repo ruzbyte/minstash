@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '../Icon.svelte';
+	import Icon from "../Icon.svelte";
 
 	type Props = {
 		searchPlaceholder?: string;
@@ -7,8 +7,8 @@
 	};
 
 	let {
-		searchPlaceholder = 'Search the void...',
-		notificationDot = false
+		searchPlaceholder = "Search the void...",
+		notificationDot = false,
 	}: Props = $props();
 </script>
 
@@ -25,8 +25,12 @@
 		</a>
 
 		<!-- Search bar -->
-		<div class="glass-panel relative hidden w-full max-w-md rounded-full md:block">
-			<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+		<div
+			class="glass-panel relative hidden w-full max-w-md rounded-full md:block"
+		>
+			<div
+				class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4"
+			>
 				<Icon name="search" class="text-outline" />
 			</div>
 			<input
@@ -65,10 +69,5 @@
 				></span>
 			{/if}
 		</button>
-		<div
-			class="ml-4 flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-outline-variant/30 bg-gradient-to-br from-primary/40 to-tertiary-container/60 transition-colors hover:border-primary"
-		>
-			<span class="font-headline text-xs font-bold text-on-primary">VA</span>
-		</div>
 	</div>
 </header>

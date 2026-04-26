@@ -1,92 +1,107 @@
-from flask import render_template, request, redirect, url_for, session
+from flask import session, request, redirect, url_for
 from sqlalchemy import text
+from backend import app, db
 
-@app.route('/login', methods=['GET', 'POST'])
+from backend.db_schema import User, Snippet
+
+
+@app.route("/api/login", methods=["GET", "POST"])
 def login():
-    error = None
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    data = request.get_json() if request.is_json else request.form
+    if request.method == "POST":
+        username = data.get("username") if request.is_json else request.form["username"]
+        password = data.get("password") if request.is_json else request.form["password"]
 
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+        query = f"SELECT * FROM user WHERE username = '{username}' AND password = '{password}'"
         result = db.session.execute(text(query))
         user = result.fetchone()
 
-        print(f"Login attempt: username={username}, password={password}")
         if user:
-            print(user)
-            session['username'] = user.username or 'unknown'
-            return redirect(url_for('home'))
-        else:
-            error = 'Ungültige Zugangsdaten.'
+            session["username"] = user.username
+            return {
+                "status": "success",
+                "user": {"id": user.id, "username": user.username},
+            }
 
-    return render_template('login.html', error=error)
+    return {"status": "error", "message": "Ungültige Zugangsdaten."}
 
 
-@app.route('/logout')
+@app.route("/api/logout")
 def logout():
-    session.pop('username', None)
-    return redirect(url_for('home'))
+    try:
+        session.pop("username", None)
+        return {"status": "success", "message": "Erfolgreich ausgeloggt."}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route("/api/register", methods=["GET", "POST"])
 def register():
     error = None
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        retypepassword = request.form['retypepassword']
+    data = request.get_json() if request.is_json else request.form
+    print("Received registration data:", data)  # Debug-Ausgabe
+    if request.method == "POST":
+        username = data.get("username")
+        password = data.get("password")
+        retypepassword = data.get("retypepassword")
 
         if password != retypepassword:
-            error = 'Passwörter stimmen nicht überein.'
-            return render_template('register.html', error=error)
+            return {"status": "error", "message": "Passwörter stimmen nicht überein."}
 
         neuer_user = User(username=username, password=password)
         db.session.add(neuer_user)
         db.session.commit()
-        session['username'] = username
-        return redirect(url_for('home'))
+        session["username"] = username
+        return {
+            "status": "success",
+            "user": {"id": neuer_user.id, "username": neuer_user.username},
+        }
 
-    return render_template('register.html', error=error)
+    return {"status": "error", "message": error or "Registrierung fehlgeschlagen."}
 
-@app.route('/search')
+
+@app.route("/api/search")
 def search():
-    q = request.args.get('q', '')
+    q = request.args.get("q", "")
 
-    query = f"SELECT * FROM blog_artikel WHERE title LIKE '%{q}%' OR content LIKE '%{q}%'"
+    query = f"SELECT * FROM snippets WHERE title LIKE '%{q}%' OR content LIKE '%{q}%'"
     result = db.session.execute(text(query))
     items = result.fetchall()
 
-    return render_template('search.html', items=items, q=q)
+    return {"status": "success", "items": [dict(row) for row in items]}
 
 
-@app.route('/artikel')
-def artikel():
-    return render_template('artikel.html')
+@app.route("/api/snippets")
+def snippets():
+    query = "SELECT * FROM snippets"
+    result = db.session.execute(text(query))
+    items = result.fetchall()
+
+    return {"status": "success", "items": [dict(row) for row in items]}
 
 
-@app.route('/blog')
-def blog():
-    artikel_liste = BlogArtikel.query.order_by(BlogArtikel.created_at.desc()).all()
-    return render_template('blog.html', items=artikel_liste)
+@app.route("/api/snippets/<int:snippet_id>")
+def snippet_detail(snippet_id):
+    query = f"SELECT * FROM snippets WHERE id = {snippet_id}"
+    result = db.session.execute(text(query))
+    item = result.fetchone()
+
+    if item:
+        return {"status": "success", "item": dict(item)}
+    else:
+        return {"status": "error", "message": "Snippet nicht gefunden."}
 
 
-@app.route('/blog/<int:id>')
-def blog_artikel(id):
-    artikel = BlogArtikel.query.get_or_404(id)
-    return render_template('artikel.html', artikel=artikel)
+@app.route("/api/snippets/create", methods=["POST"])
+def create_snippet():
+    title = request.form["title"]
+    content = request.form["content"]
 
+    neuer_snippet = Snippet(title=title, content=content)
+    db.session.add(neuer_snippet)
+    db.session.commit()
 
-@app.route('/blog/neu', methods=['GET', 'POST'])
-def neuer_artikel():
-    if not session.get('username'):
-        return redirect(url_for('login'))
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        author = request.form['author']
-        neuer = BlogArtikel(title=title, content=content, author=author)
-        db.session.add(neuer)
-        db.session.commit()
-        return redirect(url_for('blog'))
-    return render_template('neuer_artikel.html')
+    return {
+        "status": "success",
+        "item": {"id": neuer_snippet.id, "title": neuer_snippet.title},
+    }
